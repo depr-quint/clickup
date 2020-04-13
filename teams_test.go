@@ -29,3 +29,14 @@ func TestGetTeams(t *testing.T) {
 		t.Error("could not get team color")
 	}
 }
+
+func getTestTeam() *Team {
+	resp, _, _ := testClient.Teams.Get()
+	var testTeam *Team
+	for _, team := range resp.Teams {
+		if team.GetName() == "ClickUp API Test" {
+			testTeam = &team
+		}
+	}
+	return testTeam
+}
