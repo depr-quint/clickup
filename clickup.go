@@ -22,6 +22,7 @@ type Client struct {
 	secret  *string
 
 	common service
+	Teams  *TeamsService
 }
 
 func NewClient(client *http.Client, secret *string) *Client {
@@ -37,6 +38,7 @@ func NewClient(client *http.Client, secret *string) *Client {
 	}
 
 	c.common.client = c
+	c.Teams = (*TeamsService)(&c.common)
 	return c
 }
 
