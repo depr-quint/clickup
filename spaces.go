@@ -39,12 +39,12 @@ func (s *SpacesService) Update(spaceID string, space *Space) (*Space, *http.Resp
 		return nil, nil, err
 	}
 
-	created := new(Space)
-	resp, err := s.client.Do(req, created)
+	updated := new(Space)
+	resp, err := s.client.Do(req, updated)
 	if err != nil {
 		return nil, resp, err
 	}
-	return created, resp, nil
+	return updated, resp, nil
 }
 
 // ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/spaces/delete-space.html
@@ -66,6 +66,7 @@ type Spaces struct {
 	Spaces []Spaces `json:"spaces,omitempty"`
 }
 
+// ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/spaces/get-spaces.html
 func (s *SpacesService) GetAll(teamID string, archived bool) (*Spaces, *http.Response, error) {
 	u := fmt.Sprintf("team/%v/space?archived=%t", teamID, archived)
 	req, err := s.client.NewRequest(http.MethodGet, u, nil)
@@ -81,6 +82,7 @@ func (s *SpacesService) GetAll(teamID string, archived bool) (*Spaces, *http.Res
 	return spaces, resp, nil
 }
 
+// ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/spaces/get-space.html
 func (s *SpacesService) Get(spaceID string) (*Space, *http.Response, error) {
 	u := fmt.Sprintf("space/%v", spaceID)
 	req, err := s.client.NewRequest(http.MethodGet, u, nil)

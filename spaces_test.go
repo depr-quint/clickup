@@ -46,7 +46,7 @@ func testCreateSpace(team *Team, t *testing.T) *Space {
 	}
 
 	if space.GetName() != name {
-		fmt.Errorf("names do not match, got %v, expected %v", space.GetName(), name)
+		t.Errorf("names do not match, got %v, expected %v", space.GetName(), name)
 	}
 	return space
 }
@@ -78,7 +78,7 @@ func testUpdateSpace(original *Space, t *testing.T) *Space {
 	}
 
 	if space.GetName() != name {
-		fmt.Errorf("names do not match, got %v, expected %v", space.GetName(), name)
+		t.Errorf("names do not match, got %v, expected %v", space.GetName(), name)
 	}
 	return space
 }
@@ -95,7 +95,7 @@ func testGetSpace(original *Space, t *testing.T) *Space {
 	}
 
 	if space.GetName() != original.GetName() {
-		fmt.Errorf("names do not match, got %v, expected %v", space.GetName(), original.GetName())
+		t.Errorf("names do not match, got %v, expected %v", space.GetName(), original.GetName())
 	}
 	return space
 }
@@ -108,7 +108,7 @@ func testDeleteSpace(space *Space, t *testing.T) {
 }
 
 func testGetDeletedSpace(space *Space, t *testing.T) {
-	space, resp, err := testClient.Spaces.Get(space.GetID())
+	_, resp, err := testClient.Spaces.Get(space.GetID())
 	if err == nil {
 		t.Error("expected error")
 	}
@@ -119,6 +119,21 @@ func testGetDeletedSpace(space *Space, t *testing.T) {
 	}
 
 	if resp.StatusCode != http.StatusNotFound {
-		t.Errorf("exprected 404 error code, got %d", resp.StatusCode)
+		t.Errorf("expected 404 error code, got %d", resp.StatusCode)
 	}
+}
+
+func createTestSpace(team *Team, name string) *Space {
+	name = fmt.Sprintf("%s Space Test (%s)", name, time.Now().Format("2006-02-01"))
+	space, _, err := testClient.Spaces.Create(team.GetID(), &Space{
+		Name: &name,
+	})
+	if err != nil {
+		return nil
+	}
+	return space
+}
+
+func deleteTestSpace(space *Space) {
+	_, _ = testClient.Spaces.Delete(space.GetID())
 }

@@ -21,9 +21,10 @@ type Client struct {
 	baseURL *url.URL
 	secret  *string
 
-	common service
-	Spaces *SpacesService
-	Teams  *TeamsService
+	common  service
+	Spaces  *SpacesService
+	Teams   *TeamsService
+	Folders *FoldersService
 }
 
 func NewClient(client *http.Client, secret *string) *Client {
@@ -41,6 +42,7 @@ func NewClient(client *http.Client, secret *string) *Client {
 	c.common.client = c
 	c.Spaces = (*SpacesService)(&c.common)
 	c.Teams = (*TeamsService)(&c.common)
+	c.Folders = (*FoldersService)(&c.common)
 	return c
 }
 
@@ -68,7 +70,6 @@ func (c *Client) Do(r *http.Request, v interface{}) (*http.Response, error) {
 			}
 		}
 	}
-
 	return resp, err
 }
 
