@@ -51,7 +51,9 @@ func (c *Client) Do(r *http.Request, v interface{}) (*http.Response, error) {
 	}
 	defer resp.Body.Close()
 
-	// TODO: check response status code & parse errors
+	if err := CheckResponse(resp); err != nil {
+		return resp, err
+	}
 
 	if v != nil {
 		if w, ok := v.(io.Writer); ok {

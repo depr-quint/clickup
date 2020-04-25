@@ -109,8 +109,13 @@ func testDeleteSpace(space *Space, t *testing.T) {
 
 func testGetDeletedSpace(space *Space, t *testing.T) {
 	space, resp, err := testClient.Spaces.Get(space.GetID())
-	if err != nil {
-		t.Error(err)
+	if err == nil {
+		t.Error("expected error")
+	}
+
+	if resp == nil {
+		t.Error("expected response")
+		return
 	}
 
 	if resp.StatusCode != http.StatusNotFound {
