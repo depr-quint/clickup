@@ -28,9 +28,9 @@ func (s *FoldersService) Create(spaceID string, folder *Folder) (*Folder, *http.
 }
 
 // ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/folders/update-folder.html
-func(s* FoldersService) Update(folderID string, folder *Folder) (*Folder,  *http.Response, error) {
+func (s *FoldersService) Update(folderID string, folder *Folder) (*Folder, *http.Response, error) {
 	if folder == nil {
-		return nil, nil,  fmt.Errorf("folder must be provided")
+		return nil, nil, fmt.Errorf("folder must be provided")
 	}
 
 	u := fmt.Sprintf("folder/%v", folderID)
@@ -105,7 +105,7 @@ type Folder struct {
 	OverrideStatuses *bool        `json:"override_statuses,omitempty"`
 	Hidden           *bool        `json:"hidden,omitempty"`
 	Space            *FolderSpace `json:"space,omitempty"`
-	TaskCount        *string         `json:"task_count,omitempty"`
+	TaskCount        *string      `json:"task_count,omitempty"`
 }
 
 func (f *Folder) GetID() string {
@@ -162,7 +162,6 @@ type FolderSpace struct {
 	Name   *string `json:"name,omitempty"`
 	Access *bool   `json:"access,omitempty"`
 }
-
 
 func (s *FolderSpace) GetID() string {
 	if s == nil || s.ID == nil {

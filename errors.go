@@ -34,7 +34,6 @@ func CheckResponse(resp *http.Response) error {
 	// repopulate body
 	resp.Body = ioutil.NopCloser(bytes.NewBuffer(data))
 
-
 	switch {
 	default:
 		return errorResponse

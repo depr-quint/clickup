@@ -103,7 +103,6 @@ func testGetFolder(original *Folder, t *testing.T) *Folder {
 	return folder
 }
 
-
 func testDeleteFolder(folder *Folder, t *testing.T) {
 	_, err := testClient.Folders.Delete(folder.GetID())
 	if err != nil {
