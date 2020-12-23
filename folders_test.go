@@ -40,9 +40,7 @@ func TestFolder(t *testing.T) {
 
 func testCreateFolder(space *Space, t *testing.T) *Folder {
 	name := fmt.Sprintf("Folder Test (%s)", time.Now().Format("2006-02-01"))
-	folder, _, err := testClient.Folders.Create(space.GetID(), &Folder{
-		Name: &name,
-	})
+	folder, _, err := testClient.Folders.Create(space.GetID(), name)
 	if err != nil {
 		t.Error(err)
 		return nil
@@ -68,9 +66,7 @@ func testGetAllFolders(space *Space, t *testing.T) {
 
 func testUpdateFolder(original *Folder, t *testing.T) *Folder {
 	name := fmt.Sprintf("Folder Test (%s) Updated", time.Now().Format("2006-02-01"))
-	folder, _, err := testClient.Folders.Update(original.GetID(), &Folder{
-		Name: &name,
-	})
+	folder, _, err := testClient.Folders.Update(original.GetID(), name)
 	if err != nil {
 		t.Error(err)
 		return nil

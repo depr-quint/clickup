@@ -7,6 +7,7 @@ import (
 
 type TeamsService service
 
+// ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/teams/get-teams.html
 func (s *TeamsService) Get() (*Teams, *http.Response, error) {
 	u := fmt.Sprintf("team")
 	req, err := s.client.NewRequest(http.MethodGet, u, nil)
@@ -33,6 +34,7 @@ type Team struct {
 	Color   *string  `json:"color,omitempty"`
 	Avatar  *string  `json:"avatar,omitempty"`
 	Members []Member `json:"members,omitempty"`
+	Roles   []Role   `json:"roles,omitempty"`
 }
 
 func (t *Team) GetID() string {

@@ -8,13 +8,11 @@ import (
 type FoldersService service
 
 // ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/folders/create-folder.html
-func (s *FoldersService) Create(spaceID string, folder *Folder) (*Folder, *http.Response, error) {
-	if folder == nil {
-		return nil, nil, fmt.Errorf("folder must be provided")
-	}
-
+func (s *FoldersService) Create(spaceID string, name string) (*Folder, *http.Response, error) {
 	u := fmt.Sprintf("space/%v/folder", spaceID)
-	req, err := s.client.NewRequest(http.MethodPost, u, folder)
+	req, err := s.client.NewRequest(http.MethodPost, u, Folder{
+		Name: &name,
+	})
 	if err != nil {
 		return nil, nil, err
 	}
@@ -28,13 +26,11 @@ func (s *FoldersService) Create(spaceID string, folder *Folder) (*Folder, *http.
 }
 
 // ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/folders/update-folder.html
-func (s *FoldersService) Update(folderID string, folder *Folder) (*Folder, *http.Response, error) {
-	if folder == nil {
-		return nil, nil, fmt.Errorf("folder must be provided")
-	}
-
+func (s *FoldersService) Update(folderID string, name string) (*Folder, *http.Response, error) {
 	u := fmt.Sprintf("folder/%v", folderID)
-	req, err := s.client.NewRequest(http.MethodPut, u, folder)
+	req, err := s.client.NewRequest(http.MethodPut, u, Folder{
+		Name: &name,
+	})
 	if err != nil {
 		return nil, nil, err
 	}

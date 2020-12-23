@@ -37,8 +37,8 @@ func TestSpace(t *testing.T) {
 
 func testCreateSpace(team *Team, t *testing.T) *Space {
 	name := fmt.Sprintf("Space Test (%s)", time.Now().Format("2006-02-01"))
-	space, _, err := testClient.Spaces.Create(team.GetID(), &Space{
-		Name: &name,
+	space, _, err := testClient.Spaces.Create(team.GetID(), SpaceRequest{
+		Name: name,
 	})
 	if err != nil {
 		t.Error(err)
@@ -65,8 +65,8 @@ func testGetAllSpaces(team *Team, t *testing.T) {
 
 func testUpdateSpace(original *Space, t *testing.T) *Space {
 	name := fmt.Sprintf("Space Test (%s) Updated", time.Now().Format("2006-02-01"))
-	space, _, err := testClient.Spaces.Update(original.GetID(), &Space{
-		Name: &name,
+	space, _, err := testClient.Spaces.Update(original.GetID(), SpaceRequest{
+		Name: name,
 	})
 	if err != nil {
 		t.Error(err)
@@ -125,8 +125,8 @@ func testGetDeletedSpace(space *Space, t *testing.T) {
 
 func createTestSpace(team *Team, name string) *Space {
 	name = fmt.Sprintf("%s Space Test (%s)", name, time.Now().Format("2006-02-01"))
-	space, _, err := testClient.Spaces.Create(team.GetID(), &Space{
-		Name: &name,
+	space, _, err := testClient.Spaces.Create(team.GetID(), SpaceRequest{
+		Name: name,
 	})
 	if err != nil {
 		return nil

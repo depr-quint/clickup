@@ -7,12 +7,45 @@ import (
 
 type SpacesService service
 
-// ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/spaces/create-space.html
-func (s *SpacesService) Create(teamID string, space *Space) (*Space, *http.Response, error) {
-	if space == nil {
-		return nil, nil, fmt.Errorf("space must be provided")
-	}
+type SpaceRequest struct {
+	Name              string `json:"name"`
+	MultipleAssignees bool   `json:"multiple_assignees"`
+	Features          struct {
+		DueDates struct {
+			Enabled             bool `json:"enabled"`
+			StartDate           bool `json:"start_date"`
+			RemapDueDates       bool `json:"remap_due_dates"`
+			RemapClosedDueDates bool `json:"remap_closed_due_dates"`
+		} `json:"due_dates"`
+		TimeTracking struct {
+			Enabled bool `json:"enabled"`
+		} `json:"time_tracking"`
+		Tags struct {
+			Enabled bool `json:"enabled"`
+		} `json:"tags"`
+		TimeEstimates struct {
+			Enabled bool `json:"enabled"`
+		} `json:"time_estimates"`
+		Checklists struct {
+			Enabled bool `json:"enabled"`
+		} `json:"checklists"`
+		CustomFields struct {
+			Enabled bool `json:"enabled"`
+		} `json:"custom_fields"`
+		RemapDependencies struct {
+			Enabled bool `json:"enabled"`
+		} `json:"remap_dependencies"`
+		DependencyWarning struct {
+			Enabled bool `json:"enabled"`
+		} `json:"dependency_warning"`
+		Portfolios struct {
+			Enabled bool `json:"enabled"`
+		} `json:"portfolios"`
+	} `json:"features"`
+}
 
+// ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/spaces/create-space.html
+func (s *SpacesService) Create(teamID string, space SpaceRequest) (*Space, *http.Response, error) {
 	u := fmt.Sprintf("team/%v/space", teamID)
 	req, err := s.client.NewRequest(http.MethodPost, u, space)
 	if err != nil {
@@ -28,11 +61,7 @@ func (s *SpacesService) Create(teamID string, space *Space) (*Space, *http.Respo
 }
 
 // ClickUp API docs: https://jsapi.apiary.io/apis/clickup20/reference/0/spaces/update-space.html
-func (s *SpacesService) Update(spaceID string, space *Space) (*Space, *http.Response, error) {
-	if space == nil {
-		return nil, nil, fmt.Errorf("space must be provided")
-	}
-
+func (s *SpacesService) Update(spaceID string, space SpaceRequest) (*Space, *http.Response, error) {
 	u := fmt.Sprintf("space/%v", spaceID)
 	req, err := s.client.NewRequest(http.MethodPut, u, space)
 	if err != nil {
